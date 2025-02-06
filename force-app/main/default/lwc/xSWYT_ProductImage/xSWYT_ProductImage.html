@@ -1,9 +1,9 @@
 <template>
 
-    <template lwc:if={showWishlistIcon}>
         <!--POSITION ONE-->
         <template lwc:if={isPositionOne}>
             <lightning-layout style={prodImage}>
+                <template lwc:if={showWishlistIcon}>
                 <div class="slds-var-m-around_small round-link" style={iconBkgStyle}>
                     <template lwc:if={productInWishlist}>
                         <a onclick={removeProduct}><i class="fa-solid fa-heart-circle-minus favorite-icon-style slds-var-p-around_small" style={addedProductStyle}></i></a>
@@ -11,13 +11,14 @@
                     <template lwc:else>
                         <a onclick={addProduct}><i class="fa-solid fa-heart-circle-plus favorite-icon-style slds-var-p-around_small" style={defaultBtnStyle}></i></a>
                     </template>
-                </div>
+                </div></template>
             </lightning-layout>
         </template>
         
         <!--POSITION TWO-->
         <template lwc:elseif={isPositionTwo}>
             <lightning-layout horizontal-align="end" style={prodImage}>
+                <template lwc:if={showWishlistIcon}>
                 <div class="slds-var-m-around_small round-link" style={iconBkgStyle}>
                     <template lwc:if={productInWishlist}>
                         <a onclick={removeProduct}><i class="fa-solid fa-heart-circle-minus favorite-icon-style slds-var-p-around_small" style={addedProductStyle}></i></a>
@@ -25,13 +26,14 @@
                     <template lwc:else>
                         <a onclick={addProduct}><i class="fa-solid fa-heart-circle-plus favorite-icon-style slds-var-p-around_small" style={defaultBtnStyle}></i></a>
                     </template>
-                </div>
+                </div></template>
             </lightning-layout>
         </template>
 
         <!--POSITION THREE-->
         <template lwc:elseif={isPositionThree}>
             <lightning-layout vertical-align="end" style={prodImage}>
+                <template lwc:if={showWishlistIcon}>
                 <div class="slds-var-m-around_small round-link" style={iconBkgStyle}>
                     <template lwc:if={productInWishlist}>
                         <a onclick={removeProduct}><i class="fa-solid fa-heart-circle-minus favorite-icon-style slds-var-p-around_small" style={addedProductStyle}></i></a>
@@ -39,13 +41,14 @@
                     <template lwc:else>
                         <a onclick={addProduct}><i class="fa-solid fa-heart-circle-plus favorite-icon-style slds-var-p-around_small" style={defaultBtnStyle}></i></a>
                     </template>
-                </div>
+                </div></template>
             </lightning-layout>
         </template>
         
         <!--POSITION FOUR-->
         <template lwc:else>
             <lightning-layout horizontal-align="end" vertical-align="end" style={prodImage}>
+                <template lwc:if={showWishlistIcon}>
                 <div class="slds-var-m-around_small round-link" style={iconBkgStyle}>
                     <template lwc:if={productInWishlist}>
                         <a onclick={removeProduct}><i class="fa-solid fa-heart-circle-minus favorite-icon-style slds-var-p-around_small" style={addedProductStyle}></i></a>
@@ -53,8 +56,7 @@
                     <template lwc:else>
                         <a onclick={addProduct}><i class="fa-solid fa-heart-circle-plus favorite-icon-style slds-var-p-around_small" style={defaultBtnStyle}></i></a>
                     </template>
-                </div>
+                </div></template>
             </lightning-layout>
         </template>
-    </template>
 </template>
