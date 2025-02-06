@@ -1,0 +1,7 @@
+.added-product{
+    --slds-c-icon-color-foreground:#007700 !important;
+}
+
+.clickable-span{
+    cursor: pointer;
+}

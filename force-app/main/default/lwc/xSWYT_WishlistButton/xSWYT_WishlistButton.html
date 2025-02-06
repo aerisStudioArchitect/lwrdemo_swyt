@@ -1,0 +1,15 @@
+<template>
+    <!-- WISHLIST ICON -->
+     <template lwc:if={addedToWishlist}>
+        <span class="slds-icon_container slds-icon-utility-heart clickable-span" title="Description of icon when needed" onclick={removeProductFromWishlist}>
+            <svg class="slds-icon added-product" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#heart"></use>
+            </svg>
+            <span class="slds-assistive-text">Remove product from wishlist</span>
+        </span>
+    </template>
+    <template lwc:else>
+        <lightning-icon icon-name="utility:heart" alternative-text="Add to Wishlist" onclick={addProductToWishlist} class="clickable-span"></lightning-icon>
+    </template>
+
+</template>

@@ -1,0 +1,10 @@
+<apex:page controller="ReportBuilderController" showHeader="false" sidebar="false">
+    <apex:includeLightning />
+    <apex:slds />
+    <apex:form >
+        <div class="slds">
+            <apex:outputLabel >Report Name:&nbsp;&nbsp;</apex:outputLabel><apex:inputText label="Report Name" required="true" title="Report Name"/>
+        </div>
+        <apex:selectOptions value="{!reportTypes}"></apex:selectOptions>
+    </apex:form>
+</apex:page>

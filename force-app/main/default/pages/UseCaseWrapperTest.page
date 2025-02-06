@@ -1,0 +1,33 @@
+<apex:page standardController="Account" extensions="UseCaseWrapperController">
+    <apex:form >
+        <apex:pageBlock id="ucWrapper" title="Use Cases">
+            <apex:pageBlockButtons ><apex:commandButton value="Save" action="{!save}"/></apex:pageBlockButtons>
+            <apex:outputPanel id="useCaseHead">
+                <apex:variable value="{!0}" var="rowNum"/>
+                <apex:pageBlockSection columns="1" id="useCases" collapsible="False">
+                    <apex:pageBlockTable value="{!useCaseList}" var="uc">
+                        <apex:column headerValue="Action">
+                            <apex:commandLink value="Remove" style="color:red" action="{!removeRowFromList}" rendered="{!rowNum > 0}" rerender="useCaseHead" immediate="true" >
+                                <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!rowToRemove}"/>
+                            </apex:commandLink>
+                            <apex:variable var="rowNum" value="{!rowNum + 1}"/>
+                        </apex:column>
+                        <apex:column headerValue="Type">
+                            <apex:inputField value="{!uc.record.Use_Case_Type__c}" required="true"/>
+                        </apex:column>
+                        <apex:column headerValue="Duration">
+                            <apex:inputField value="{!uc.record.Duration__c}" required="true"/>
+                        </apex:column>
+                        <apex:column headerValue="Start Code">
+                            <apex:inputField value="{!uc.record.Start_Code__c}" required="true"/>
+                        </apex:column>
+                        <apex:column headerValue="Site">
+                            <apex:inputField value="{!uc.record.Site__c}" required="true"/>
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:pageBlockSection>
+                <apex:commandLink value="Add New..." action="{!addRowToList}" rerender="useCaseHead" Status="status" immediate="true" />                
+            </apex:outputPanel>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

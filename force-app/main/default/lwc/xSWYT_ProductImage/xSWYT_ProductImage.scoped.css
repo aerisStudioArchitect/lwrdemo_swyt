@@ -1,0 +1,12 @@
+.favorite-icon-style{
+    font-size: 150%;
+    color: gray;
+}
+
+.round-link {
+    /*padding: 5%; /* Space around the text */
+    width: fit-content;
+    height: fit-content;
+    border-radius: 50%; /* Rounded background */
+  }
+  

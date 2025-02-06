@@ -1,0 +1,8 @@
+<template>
+    <template lwc:if={productInWishlist}>
+        <a onclick={removeProduct}><i class="fa-solid fa-heart-circle-minus favorite-icon-style slds-var-p-around_small" style={addedProductStyle}></i></a>
+    </template>
+    <template lwc:else>
+        <a onclick={addProduct}><i class="fa-solid fa-heart-circle-plus favorite-icon-style slds-var-p-around_small"></i></a>
+    </template>
+</template>

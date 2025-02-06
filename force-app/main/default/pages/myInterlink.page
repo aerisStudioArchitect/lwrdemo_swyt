@@ -1,0 +1,7 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Congratulations</h1>
+  This is your new Page: myInterlink
+  <!-- End Default Content REMOVE THIS -->
+  <apex:iframe src="https://my.interlink.com" scrolling="true" id="theIframe"/>
+</apex:page>

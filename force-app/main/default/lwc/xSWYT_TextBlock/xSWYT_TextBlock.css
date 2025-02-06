@@ -1,0 +1,6 @@
+.badge-one{
+    --slds-c-badge-color-background: yellow;
+}
+.badge-two{
+    --slds-c-badge-color-background: green;
+}

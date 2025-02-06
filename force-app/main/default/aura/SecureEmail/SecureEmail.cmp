@@ -1,0 +1,15 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="SecureEmailController">
+    <aura:handler name="init" action="{!c.myAction}" value="{!this}" />
+    <aura:attribute name="contacts" type="Contact[]" />
+    <ul>
+        <aura:iteration items="{!v.contacts}" var="contact">
+        <li class="minli"> <h3>{!contact.Name}</h3> </li>
+        </aura:iteration>
+        </ul> 
+    <aura:attribute name="email" type="EmailMessage" default="{ 'sobjectType': 'EmailMessage' }"/>
+	<force:inputField aura:id="subject" value="{!v.email.Subject}"/>
+    <force:inputField aura:id="from" value="{!v.email.ValidatedFromAddress}"/>
+    <lightning:input type="email" label="To:" name="email" value="{!v.email.RelatedTo}" />
+    <lightning:input type="text" label="Subject:" name="subject" value="{!v.email.Subject}" />
+
+</aura:component>

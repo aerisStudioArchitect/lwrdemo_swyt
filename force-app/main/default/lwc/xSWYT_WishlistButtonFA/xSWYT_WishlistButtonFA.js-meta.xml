@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightningCommunity__Default</target>
+        <target>lightningCommunity__Page</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="addedColor" type="String" label="Added Product Button Color" description="Color of the button when a product is added to the wishlist (e.g. red, #0000FF, etc)" default="#FF0000"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

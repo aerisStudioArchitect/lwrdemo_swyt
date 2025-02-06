@@ -1,0 +1,98 @@
+<apex:page standardController="TimeSheet__c" extensions="TSExtentionController" docType="html-5.0">
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"/>
+    <apex:outputPanel id="out">
+        <apex:pageMessages ></apex:pageMessages>
+    </apex:outputPanel>
+    <apex:sectionHeader title="SIRA Tickets: Home"/>
+    <apex:form >
+        <apex:outputPanel style="font-weight:bold"> Choose a User:
+            <apex:selectList id="userList" onchange="setUser(this.value)" value="{!selectedUser}" size="1">
+                <apex:selectOptions value="{!options}"></apex:selectOptions>
+            </apex:selectList>
+        </apex:outputPanel>
+        <apex:pageBlock title="My SIRA Tickets" id="sheets" >
+        Select a SIRA Ticket below to view its time entries.  Only SIRA Tickets with time logged are shown in the table below.
+            <apex:pageBlockTable value="{!Cases}" var="c" onRowClick="clickElem(this);" rules="rows">
+                <apex:column id="sheetName"  headerValue="ID" value="{!c.Id}"/>
+                <apex:column headerValue="Case Number">
+                    <apex:outputLink value="{!URLFOR($Action.Case.View,c.Id)}">{!c.CaseNumber}</apex:outputLink>
+                </apex:column>
+                <apex:column headerValue="Status" value="{!c.Status}"/>
+                <apex:column headerValue="Non-Billable Hours" value="{!c.NonBillable_Hours__c}"/>
+                <apex:column headerValue="Billed Hours" value="{!c.Billable_Hours__c}"/>
+                <apex:column headerValue="Total Hours" value="{!c.Total_Hours__c}"/>
+            </apex:pageBlockTable>
+            <apex:actionFunction action="{!GetTimeEntries}" name="getEntries" reRender="entries,out">
+                <apex:param id="sheet" name="sheet" value="" assignTo="{!sheetId}"/>
+            </apex:actionFunction>
+            <apex:pageBlockSection id="entries" collapsible="true" columns="1" title="Time Sheet Entries">
+            Double click a Time Entry to edit it.
+                <apex:panelGrid id="edit_sect" columns="2" width="100%" >
+                <apex:pageBlockTable value="{!timeEntries}" var="te" onrowDblClick="editRow(this)">
+                    <apex:column headerValue="Record ID" value="{!te.Id}"/>
+                    <apex:column headerValue="Status" value="{!te.Status__c}"/>
+                    <apex:column headerValue="Entry Date" value="{!te.Date__c}"/>
+                    <apex:column headerValue="Type" value="{!te.Type__c}"/>
+                    <apex:column headerValue="Hours" value="{!te.Hours__c}"/>
+                    <apex:column headerValue="Minutes" value="{!te.Minutes__c}"/>
+                    <apex:column headerValue="Calculated Time" value="{!te.Calculated_Time__c}"/>
+                    <!--<apex:column headerValue="Case/Issue #" onclick="">
+                        <apex:outputLink value="{!URLFOR($Action.Case.View,te.Issue__c)}">View Ticket</apex:outputLink>
+                    </apex:column>-->
+                </apex:pageBlockTable>
+                <apex:panelGrid columns="1" width="100%" cellpadding="0" rendered="{!editMode}">
+                  <apex:panelGrid columns="3" width="100%" cellpadding="0" cellspacing="0" rules="all">
+                      <apex:pageBlockSectionItem dataStyle="">
+                          <apex:outputLabel value="Hours: " for="hours" Style="font-weight:bold;"/>
+                          <apex:inputField type="number" value="{!tEntry.Hours__c}" id="Hours" style="width:30px;"/>
+                      </apex:pageBlockSectionItem>
+                      <apex:pageBlockSectionItem >
+                          <apex:outputLabel value="Minutes:" for="minutes" Style="font-weight:bold;"/>
+                          <apex:inputField type="number" value="{!tEntry.Minutes__c}" id="Minutes" style="width:30px;"/>
+                      </apex:pageBlockSectionItem>
+                      <apex:pageBlockSectionItem >
+                          <apex:outputLabel value="Date: " for="tDate" Style="font-weight:bold;"/>
+                          <apex:inputField type="date" value="{!tEntry.Date__c}" id="tDate" showDatePicker="true" />
+                      </apex:pageBlockSectionItem>
+                  </apex:panelgrid>
+                  <apex:pageBlockSectionItem >
+                      <apex:outputLabel value="Time Entry Type: " for="tType" Style="font-weight:bold;"/>
+                      <apex:inputField value="{!tEntry.Type__c}" id="tType" />
+                  </apex:pageBlockSectionItem>
+                  <apex:pageBlockSectionItem >
+                      <apex:outputLabel value="Status: " for="tType" Style="font-weight:bold;"/>
+                      <apex:inputField value="{!tEntry.Status__c}" id="tStatus" />
+                  </apex:pageBlockSectionItem>
+                  <apex:panelGroup >
+                      <apex:commandButton action="{!saveTime}" value="Save" reRender="entries,sheets,out"/>
+                      <apex:commandButton action="{!closeTime}" value="Close" reRender="entries,sheets,out"/>
+                  </apex:panelGroup>
+              </apex:panelGrid>
+                </apex:panelGrid>
+            </apex:pageblockSection>            
+        </apex:pageBlock>   
+        <apex:actionFunction name="editClickedRow" action="{!EditRow}" reRender="edit_sect">
+            <apex:param value="" name="entryId" assignTo="{!entryId}"/>
+            <apex:param value="" name="editMode" assignTo="{!editMode}"/>
+        </apex:actionFunction>
+        <apex:actionFunction name="getUserTimesheets" action="{!GetTimeSheets}" reRender="sheets,entries,out"/>
+    </apex:form>
+    
+    <script type="text/javascript">
+        $j=jQuery.noConflict();
+        function clickElem(elem){
+            var id=$j(elem).find("span").html();
+            //alert(id);
+            getEntries(id);
+        }
+        function editRow(elem){
+            var id=$j(elem).find("span").html();
+            //alert(id);
+            editClickedRow(id,true);
+        }
+        function setUser(val){
+            alert(val);
+            getUserTimesheets();
+        }
+    </script>
+</apex:page>

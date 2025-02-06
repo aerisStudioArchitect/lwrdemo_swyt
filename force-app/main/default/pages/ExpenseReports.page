@@ -1,0 +1,108 @@
+<apex:page standardController="Expense_Report__c" docType="html-5.0" extensions="ERController">
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"/>
+
+    <apex:outputPanel id="out">
+        <apex:pageMessages ></apex:pageMessages>
+    </apex:outputPanel>
+    <script type="text/javascript">
+        $j=jQuery.noConflict();
+        function selectStatus(val){
+            //alert(val);
+            setStatus(val);
+        }
+        function clickElem(elem){
+            var href=$j(elem).find("a").attr("href");
+            var id = href.split("/")[3];
+            //alert(id);
+            getExpenses(id);
+        }
+        function getExpenses(elem){
+            var id=$j(elem).find("span").html();
+            alert(id);
+        }
+        function enableEdit(){
+            addExpense(true);
+        }
+    </script>
+    <apex:sectionHeader title="Expense Reports"/>
+    <apex:form >
+        <!--FILTER PICKLIST OUTPUT PANEL-->
+        <apex:outputPanel id="status" style="font-weight:bold;"> Choose a Report Status:
+            <apex:selectList size="1" id="statusList" value="{!selectedStatus}" onchange="selectStatus(this.value);">
+                <apex:selectOptions value="{!statuses}"></apex:selectOptions>
+            </apex:selectList>
+        </apex:outputPanel>
+        <apex:pageBlock title="My Expense Reports">
+            <!--PAGE BLOCK BUTTONS-->
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="New" title="New" action="{!URLFOR($Action.Expense_Report__c.New)}" />
+            </apex:pageBlockButtons>
+            <!--PAGE BLOCK TABLE: EXPENSE REPORTS-->
+            Click a row below to view related expenses. Double click to open the Expense Report
+            <apex:pageBlockTable id="reportList" value="{!reports}" var="r" onRowClick="clickElem(this);" rules="rows">
+                <apex:column headerValue="Report #">
+                    <apex:outputLink id="rowId" value="{!URLFOR($Action.Expense_Report__c.View,r.Id)}">{!r.Name}</apex:outputLink>
+                </apex:column>
+                <apex:column headerValue="Status" value="{!r.Status__c}"/>
+                <apex:column headerValue="Total" value="{!r.Total_Expense_Value__c}"/>
+                <apex:column headerValue="Billable Amount" value="{!r.Total_Billable_Amount__c}"/>
+                <apex:column headerValue="Company Reimbursement Amount" value="{!r.Employee_Reimbursement__c}"/>
+                <apex:column headerValue="Submitted" value="{!r.Submitted_Date__c}"/>
+            </apex:pageBlockTable>
+            <!--PAGE BLOCK SECTION: EXPENSES TABLE-->
+            <apex:pageBlockSection title="Expenses {!selectedReport}" columns="1" id="expenseList">
+                <apex:pageBlockSectionItem >
+                    <apex:commandButton value="New Expense" onclick="enableEdit();"/>
+                </apex:pageBlockSectionItem>
+                <apex:panelGrid columns="2" id="edit_sect" width="100%">
+                    <apex:pageBlockTable value="{!expenses}" var="e">
+                        <apex:column headerValue="ID" value="{!e.Id}"/>
+                        <apex:column headerValue="Type" value="{!e.Expense_Type__c}"/>
+                        <apex:column headerValue="Customer" value="{!e.Customer__c}"/>
+                        <apex:column headerValue="Date" value="{!e.Date_of_Expense__c}"/>
+                        <apex:column headerValue="Vendor" value="{!e.Paid_To_Vendor__c}"/>
+                        <apex:column headerValue="Billable?" value="{!e.Billable__c}"/>
+                        <apex:column headerValue="Reason" value="{!e.Reason_for_Expense__c}"/>
+                    </apex:pageBlockTable>
+                    <apex:panelGrid columns="1" id="newExp" rendered="{!editMode}">
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel style="font-weight:bold">Type:</apex:outputLabel>
+                            <apex:inputField label="Type" value="{!expense.Expense_Type__c}"/>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel style="font-weight:bold">Customer:</apex:outputLabel>
+                            <apex:inputField label="Type" value="{!expense.Customer__c}"/>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel style="font-weight:bold">Date:</apex:outputLabel>
+                            <apex:inputField label="Type" value="{!expense.Date_of_Expense__c}"/>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel style="font-weight:bold">Amount:</apex:outputLabel>
+                            <apex:inputField label="Type" value="{!expense.Amount__c}"/>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel style="font-weight:bold">Paid To:</apex:outputLabel>
+                            <apex:inputField label="Type" value="{!expense.Paid_To_Vendor__c}"/>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel style="font-weight:bold">Reason:</apex:outputLabel>
+                            <apex:inputField label="Type" value="{!expense.Reason_for_Expense__c}"/>
+                        </apex:pageBlockSectionItem>
+                    </apex:panelGrid>
+                </apex:panelGrid>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        
+        <!--ACTION FUNCTIONS FOR PAGE, BUTTON, AND LINK ACTIONS-->
+        <apex:actionFunction id="setStatus" name="setStatus" action="{!getReports}" reRender="out,reportList">
+            <apex:param value="" name="status" assignTo="{!selectedStatus}"/>
+        </apex:actionFunction>
+        <apex:actionFunction id="getExpenses" name="getExpenses" action="{!getExpenses}" reRender="out,expenseList,edit_sect">
+            <apex:param value="" name="reportId" assignTo="{!reportId}"/>
+        </apex:actionFunction>
+        <apex:actionFunction id="addExpense" name="addExpense" action="{!enableEdit}" reRender="out,edit_sect,newExp">
+            <apex:param value="" name="editMode" assignTo="{!editMode}"/>
+        </apex:actionFunction>
+    </apex:form>
+</apex:page>
