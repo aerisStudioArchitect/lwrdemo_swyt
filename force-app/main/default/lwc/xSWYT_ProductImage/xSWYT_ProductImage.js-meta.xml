@@ -10,9 +10,9 @@
         <targetConfig targets="lightningCommunity__Default">
             <property name="imageUrl" type="String" label="Product Image URL or Expression" />
             <property name="defaultImgUrl" type="String" label="Default Image URL or Expression" default="/img/b2b/default-product-image.svg"/>
-            <property name="defaultColor" type="Color" label="Default Button Color" description="Default color of the button"/>
-            <property name="addedColor" type="Color" label="Selected Button Color" description="Color of the button when selected" default="#FF0000"/>
-            <property name="iconBkgColor" type="Color" label="Wishlist Icon Background Color" />
+            <property name="defaultColor" type="Color" label="Default Button Color" default="rgb(116,116,116)"/>
+            <property name="addedColor" type="Color" label="Selected Button Color" default="#990101"/>
+            <property name="iconBkgColor" type="Color" label="Icon Background Color" />
             <property name="showWishlistIcon" type="Boolean" label="Show Wishlist Icon"/>
             <property name="buttonPosition" type="String" default="4" datasource="1,2,3,4" />
         </targetConfig>
